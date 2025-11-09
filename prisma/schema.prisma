@@ -1,0 +1,75 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Animal {
+  id            String    @id @default(dbgenerated("uuid_generate_v1()")) @db.Uuid
+  name          String
+  birthDate     DateTime? @map("birth_date")
+  details       String?   @db.Text
+  specie        Specie
+  specifcSpecie String?   @map("specific_specie")
+  photos        Photo[]
+
+  @@map("animals")
+}
+
+model Ong {
+  id         Int    @id @unique @default(autoincrement())
+  name       String
+  slugName   String @map("slug_name")
+  socialName String @map("social_name")
+  cnpj       String
+  pixKey     String @map("pix_key")
+
+  @@map("ongs")
+}
+
+model User {
+  id       Int      @id @unique @default(autoincrement())
+  name     String
+  email    String   @unique
+  password String
+  cpf      String   @unique
+  role     UserRole @default(USER)
+
+  @@map("users")
+}
+
+model Photo {
+  id       BigInt    @id @unique @default(autoincrement()) @db.BigInt
+  name     String
+  type     PhotoType
+  animalId String    @map("animal_id") @db.Uuid
+
+  animal Animal @relation(fields: [animalId], references: [id])
+
+  @@map("photos")
+}
+
+enum Specie {
+  DOG
+  CAT
+  BIRD
+  OTHER
+
+  @@map("specie_enum")
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  USER
+}
+
+enum PhotoType {
+  THUMB
+  GALLERY
+
+  @@map("photo_type_enum")
+}
