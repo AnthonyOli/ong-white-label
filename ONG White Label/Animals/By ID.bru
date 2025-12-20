@@ -1,0 +1,16 @@
+meta {
+  name: By ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/animals
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
