@@ -15,17 +15,22 @@ model Animal {
   specie        Specie
   specifcSpecie String?   @map("specific_specie")
   photos        Photo[]
+  ongId         Int       @map("ong_id")
+
+  ong Ong @relation(fields: [ongId], references: [id])
 
   @@map("animals")
 }
 
 model Ong {
-  id         Int    @id @unique @default(autoincrement())
+  id         Int      @id @unique @default(autoincrement())
   name       String
-  slugName   String @map("slug_name")
-  socialName String @map("social_name")
+  slugName   String   @map("slug_name")
+  socialName String   @map("social_name")
   cnpj       String
-  pixKey     String @map("pix_key")
+  pixKey     String   @map("pix_key")
+  animals    Animal[]
+  users      User[]
 
   @@map("ongs")
 }
@@ -37,6 +42,9 @@ model User {
   password String
   cpf      String   @unique
   role     UserRole @default(USER)
+  ongId    Int      @map("ong_id")
+
+  ong Ong @relation(fields: [ongId], references: [id])
 
   @@map("users")
 }

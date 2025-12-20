@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "ONG White Label",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

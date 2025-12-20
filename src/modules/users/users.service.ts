@@ -4,6 +4,6 @@ export class UserService {
   constructor(private app: FastifyInstance) {}
 
   async findUsers() {
-    return this.app.prisma.animal.findMany();
+    return this.app.prisma.user.findMany();
   }
 }
