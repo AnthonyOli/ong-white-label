@@ -5,7 +5,9 @@
     "sourceMap": true,
     "target": "es6",
     "strictPropertyInitialization": false,
-
+    "experimentalDecorators": true
   },
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts"
+  ]
 }

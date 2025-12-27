@@ -3,10 +3,11 @@ import { FastifyPluginAsync, FastifyServerOptions } from "fastify";
 import { join } from "node:path";
 import animalRoutes from "./modules/animals/animals.routes";
 import userRoutes from "./modules/users/users.routes";
+import ongRoutes from "./modules/ongs/ongs.routes";
 
 export interface AppOptions
   extends FastifyServerOptions,
-    Partial<AutoloadPluginOptions> {}
+  Partial<AutoloadPluginOptions> { }
 // Pass --options via CLI arguments in command to enable these options.
 const options: AppOptions = {
   logger: true,
@@ -18,6 +19,10 @@ const app: FastifyPluginAsync<AppOptions> = async (
 ): Promise<void> => {
   fastify.register(animalRoutes, { prefix: "/animals" });
   fastify.register(userRoutes, { prefix: "/users" });
+  fastify.register(ongRoutes, {
+    prefix: '/ongs'
+  })
+
   // Do not touch the following lines
 
   // This loads all plugins defined in plugins
