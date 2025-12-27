@@ -28,7 +28,7 @@ model Ong {
   slugName   String   @map("slug_name")
   socialName String   @map("social_name")
   cnpj       String
-  pixKey     String   @map("pix_key")
+  pixKey     String?   @map("pix_key")
   animals    Animal[]
   users      User[]
 

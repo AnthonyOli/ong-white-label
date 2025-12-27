@@ -8,7 +8,7 @@ import { OngIncludes, OngWithIncludes } from "./types/ong.types";
 export class OngService {
   constructor(private app: FastifyInstance) { }
 
-  async findOngById<I extends OngIncludes | undefined = undefined>(id: number, include: I): Promise<OngWithIncludes<I>> {
+  async findOngById<I extends OngIncludes | undefined = undefined>(id: number, include?: I): Promise<OngWithIncludes<I>> {
     return await this.app.prisma.ong.findUniqueOrThrow({
       where: {
         id
