@@ -23,14 +23,17 @@ model Animal {
 }
 
 model Ong {
-  id         Int      @id @unique @default(autoincrement())
-  name       String
-  slugName   String   @map("slug_name")
-  socialName String   @map("social_name")
-  cnpj       String
-  pixKey     String?   @map("pix_key")
-  animals    Animal[]
-  users      User[]
+  id          Int      @id @unique @default(autoincrement())
+  name        String
+  slugName    String   @map("slug_name")
+  socialName  String   @map("social_name")
+  cnpj        String
+  pixKey      String?  @map("pix_key")
+  animals     Animal[]
+  users       User[]
+  logoPhotoId BigInt?  @unique @map("logo_photo_id")
+
+  logo Photo? @relation(fields: [logoPhotoId], references: [id])
 
   @@map("ongs")
 }
@@ -56,6 +59,7 @@ model Photo {
   animalId String    @map("animal_id") @db.Uuid
 
   animal Animal @relation(fields: [animalId], references: [id])
+  ong    Ong?
 
   @@map("photos")
 }

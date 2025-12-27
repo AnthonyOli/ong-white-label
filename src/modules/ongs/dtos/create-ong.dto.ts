@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsAlpha, IsAlphanumeric, IsNotEmpty, IsNumber, IsOptional, IsString, Length } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
 
 export default class CreateOngDto {
 

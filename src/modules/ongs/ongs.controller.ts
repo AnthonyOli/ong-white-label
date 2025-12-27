@@ -1,12 +1,12 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { OngService } from "./ongs.service";
-import CreateOngDto from "./dtos/create-ong.dto";
 import { Ong } from "@prisma/client";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import CreateOngDto from "./dtos/create-ong.dto";
+import { OngService } from "./ongs.service";
 
 export class OngController {
   private service: OngService;
 
-  constructor(private app: FastifyInstance) {
+  constructor(app: FastifyInstance) {
     this.service = new OngService(app);
   }
 

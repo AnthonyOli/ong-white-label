@@ -1,8 +1,9 @@
-import { FastifyInstance } from "fastify/types/instance";
-import CreateOngDto from "./dtos/create-ong.dto";
 import { Ong } from "@prisma/client";
 import { plainToInstance } from "class-transformer";
 import { validateOrReject } from "class-validator";
+import { FastifyInstance } from "fastify/types/instance";
+import CreateOngDto from "./dtos/create-ong.dto";
+import UpdateOngDto from "./dtos/update-ong.dto";
 import { OngIncludes, OngWithIncludes } from "./types/ong.types";
 
 export class OngService {
@@ -19,6 +20,22 @@ export class OngService {
 
   async findOngs() {
     return this.app.prisma.ong.findMany();
+  }
+
+  async update(id: number, obj: UpdateOngDto): Promise<Ong> {
+    try {
+      const ongObj = plainToInstance(UpdateOngDto, obj)
+      await validateOrReject(ongObj)
+      return this.app.prisma.ong.update({
+        where: {
+          id
+        },
+        data: ongObj
+      })
+    } catch (e) {
+      console.log(e)
+      throw e
+    }
   }
 
   async create(obj: CreateOngDto): Promise<Ong> {
