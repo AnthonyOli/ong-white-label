@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { AnimalService } from "./animals.service";
-import { CreateAnimal } from "../../dtos/create-animal.dto";
+import { CreateAnimal } from "./dtos/create-animal.dto";
 
 export class AnimalController {
   private service: AnimalService;

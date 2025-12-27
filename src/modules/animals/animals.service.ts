@@ -1,6 +1,6 @@
 import { Animal } from "@prisma/client";
 import { FastifyInstance } from "fastify/types/instance";
-import { CreateAnimal } from "../../dtos/create-animal.dto";
+import { CreateAnimal } from "./dtos/create-animal.dto";
 import { AnimalsInclude, AnimalsWithInclude } from "../../types/animals.types";
 import { plainToInstance } from "class-transformer";
 import { validateOrReject } from "class-validator";
