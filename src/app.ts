@@ -18,7 +18,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
   opts
 ): Promise<void> => {
   fastify.register(animalRoutes, { prefix: "/animals" });
-  fastify.register(userRoutes, { prefix: "/users" }); 
+  fastify.register(userRoutes, { prefix: "/users" });
   fastify.register(ongRoutes, {
     prefix: '/ongs'
   })
