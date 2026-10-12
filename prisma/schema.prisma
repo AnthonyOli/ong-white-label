@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Tenant {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  users       User[]
+  animals     Animals[]
+  fosterHomes FosterHome[]
+
+  @@map("tenant")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  cpf       String   @unique
+  name      String?
+  role      Role     @default(MEMBER)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenantId    String
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  fosterHomes FosterHome[]
+
+  @@unique([tenantId, email])
+  @@index([tenantId])
+  @@map("users")
+}
+
+model Animals {
+  id           String        @id @default(uuid())
+  name         String?
+  description  String
+  specie       Specie
+  tenantId     String        @map("tenant_id")
+  fosterHomeId String?       @map("foster_home_id")
+  birthDate    DateTime?     @map("birth_date")
+  personality  Personality[]
+
+  tenant     Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  fosterHome FosterHome? @relation(fields: [fosterHomeId], references: [id], onDelete: SetNull)
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+
+  @@map("animals")
+}
+
+model FosterHome {
+  id            String  @id @default(uuid())
+  name          String
+  coordinates   String
+  stree         String
+  number        String
+  state         String
+  country       String
+  tenantId      String  @map("tenant_id")
+  responsibleId String? @map("responsible_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant      Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  responsible User?     @relation(fields: [responsibleId], references: [id], onDelete: SetNull)
+  animals     Animals[]
+
+  @@map("foster_home")
+}
+
+enum Personality {
+  FRIENDLY // sociável, gosta de gente
+  SHY // tímido, precisa de tempo para se aproximar
+  PLAYFUL // brincalhão, cheio de energia
+  CALM // tranquilo, sossegado
+  ENERGETIC // agitado, precisa de exercício
+  CURIOUS // explorador, mexe em tudo
+  INDEPENDENT // gosta do próprio espaço
+  AFFECTIONATE // carinhoso, busca colo
+  PROTECTIVE // protetor, atento ao ambiente
+  AGGRESSIVE // reativo, exige manejo cuidadoso
+}
+
+enum Specie {
+  DOG
+  CAT
+  RABBIT
+  HORSE
+  GUINEA_PIG
+  HAMSTER
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
